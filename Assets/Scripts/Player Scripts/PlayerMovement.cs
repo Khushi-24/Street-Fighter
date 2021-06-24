@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 
-    //private PlayerAnimation player_Animation;
+    private CharacterAnimation player_Anim;
     private Rigidbody mybody;
 
     public float walk_Speed = 2f;
@@ -14,23 +14,19 @@ public class PlayerMovement : MonoBehaviour
     private float rotation_Y = -90f;
     private float rotation_Speed = 15f;
 
-
-
-
-    // Start is called before the first frame update
     void Awake()
     {
 
         mybody = GetComponent<Rigidbody>();
-        //player_Animation = GetComponentInChildren<PlayerAnimation>();
-        
+        player_Anim = GetComponentInChildren<CharacterAnimation>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         RotatePlayer();
-       // print("The value is:" + Input.GetAxisRaw(Axis.HORIZONTAL_AXIS));
+        AnimatePlayerWalk();
     }
 
     void FixedUpdate()
@@ -44,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
             Input.GetAxisRaw(Axis.HORIZONTAL_AXIS) * (-walk_Speed),
             mybody.velocity.y,
             Input.GetAxisRaw(Axis.VERTICAL_AXIS) * (-z_Speed));
-    }
+    }//movement
 
     void RotatePlayer()
     {
@@ -55,5 +51,17 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0f, Mathf.Abs(rotation_Y), 0f);
         }
-    }
+    }//rotation
+
+    void AnimatePlayerWalk()
+    {
+        if (Input.GetAxisRaw(Axis.HORIZONTAL_AXIS) != 0 || Input.GetAxisRaw(Axis.VERTICAL_AXIS) != 0)
+        {
+            player_Anim.Walk(true);
+        }
+        else
+        {
+            player_Anim.Walk(false);
+        }
+    }// animate player walk
 }
