@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     //private PlayerAnimation player_Animation;
     private Rigidbody mybody;
 
-    public float walk_Speed = 3f;
+    public float walk_Speed = 2f;
     public float z_Speed = 1.5f;
 
     private float rotation_Y = -90f;
@@ -29,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("The value is:" + Input.GetAxisRaw(Axis.HORIZONTAL_AXIS));
+        RotatePlayer();
+       // print("The value is:" + Input.GetAxisRaw(Axis.HORIZONTAL_AXIS));
     }
 
     void FixedUpdate()
@@ -43,5 +44,16 @@ public class PlayerMovement : MonoBehaviour
             Input.GetAxisRaw(Axis.HORIZONTAL_AXIS) * (-walk_Speed),
             mybody.velocity.y,
             Input.GetAxisRaw(Axis.VERTICAL_AXIS) * (-z_Speed));
+    }
+
+    void RotatePlayer()
+    {
+        if(Input.GetAxisRaw(Axis.HORIZONTAL_AXIS) > 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, -Mathf.Abs(rotation_Y), 0f);
+        } else if(Input.GetAxisRaw(Axis.HORIZONTAL_AXIS) < 0)
+        {
+            transform.rotation = Quaternion.Euler(0f, Mathf.Abs(rotation_Y), 0f);
+        }
     }
 }
